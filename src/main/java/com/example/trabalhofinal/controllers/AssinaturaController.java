@@ -1,5 +1,6 @@
 package com.example.trabalhofinal.controllers;
 
+import com.example.trabalhofinal.dto.AssinaturaDTO;
 import com.example.trabalhofinal.models.Assinatura;
 import com.example.trabalhofinal.services.AssinaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class AssinaturaController {
     @PostMapping("/assinaturas")
     public Assinatura saveAssinatura(@RequestBody Assinatura assinatura) {
         return assinaturaService.saveAssinatura(assinatura);
+    }
+
+    @PostMapping
+    public Assinatura saveAssinaturaWithIDs(@RequestBody AssinaturaDTO assinaturaDTO) {
+        return assinaturaService.saveAssinaturaWithIDs(assinaturaDTO.getClienteId(), assinaturaDTO.getAplicativoId());
     }
 
     @PutMapping("/assinaturas/{id}")

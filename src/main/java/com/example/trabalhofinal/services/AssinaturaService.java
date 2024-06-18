@@ -1,7 +1,11 @@
 package com.example.trabalhofinal.services;
 
+import com.example.trabalhofinal.models.Aplicativo;
 import com.example.trabalhofinal.models.Assinatura;
+import com.example.trabalhofinal.models.Cliente;
+import com.example.trabalhofinal.repositories.AplicativoRepository;
 import com.example.trabalhofinal.repositories.AssinaturaRepository;
+import com.example.trabalhofinal.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,9 @@ import java.util.Optional;
 public class AssinaturaService {
     @Autowired
     private AssinaturaRepository assinaturaRepository;
+    private ClienteRepository ClienteRepository;
+    private AplicativoRepository AplicativoRepository;
+
 
     public List<Assinatura> getAllAssinaturas() {
         return assinaturaRepository.findAll();
@@ -27,6 +34,20 @@ public class AssinaturaService {
     }
 
     public Assinatura saveAssinatura(Assinatura assinatura) {
+        return assinaturaRepository.save(assinatura);
+    }
+
+
+    public Assinatura saveAssinaturaWithIDs(Long clienteId, Long aplicativoId) {
+        Cliente cliente = ClienteRepository.findById(clienteId).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        Aplicativo aplicativo = AplicativoRepository.findById(aplicativoId).orElseThrow(() -> new RuntimeException("Aplicativo não encontrado"));
+
+        Assinatura assinatura = new Assinatura();
+        assinatura.setCliente(cliente);
+        assinatura.setAplicativo(aplicativo);
+        assinatura.setInicioVigencia(LocalDate.now());
+        assinatura.setFimVigencia(LocalDate.now().plusMonths(1));
+
         return assinaturaRepository.save(assinatura);
     }
 
