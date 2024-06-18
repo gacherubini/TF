@@ -21,16 +21,6 @@ public class AssinaturaController {
         return assinaturaService.getAllAssinaturas();
     }
 
-    @GetMapping("/assinaturas/cliente/{clienteId}")
-    public List<Assinatura> getAssinaturasByClienteId(@PathVariable Long clienteId) {
-        return assinaturaService.getAssinaturasByClienteId(clienteId);
-    }
-
-    @GetMapping("/assinaturas/aplicativo/{aplicativoId}")
-    public List<Assinatura> getAssinaturasByAplicativoId(@PathVariable Long aplicativoId) {
-        return assinaturaService.getAssinaturasByAplicativoId(aplicativoId);
-    }
-
     @PostMapping("/assinaturas")
     public Assinatura saveAssinatura(@RequestBody Assinatura assinatura) {
         return assinaturaService.saveAssinatura(assinatura);
@@ -57,10 +47,27 @@ public class AssinaturaController {
         assinaturaService.updateAssinaturaVigencia(id, vigenciaRequest.getInicioVigencia(), vigenciaRequest.getFimVigencia());
     }
 
-    @GetMapping("/valida")
-    public boolean isAssinaturaValida(@RequestParam Long clienteId, @RequestParam Long assinaturaId) {
-        return assinaturaService.isAssinaturaValida(clienteId, assinaturaId);
+    @GetMapping("assinaturas/assinvalida/{codassin}")
+    public boolean isAssinaturaValida(@PathVariable Long codassin) {
+        return assinaturaService.isAssinaturaValida(codassin);
     }
+
+    @GetMapping("assinaturas/{tipo}")
+    public List<AssinaturaDTO> getAssinaturasPorTipo(@PathVariable String tipo) {
+        return assinaturaService.getAssinaturasPorTipo(tipo);
+    }
+
+    @GetMapping("assinaturas/assincli/{codcli}")
+    public List<AssinaturaDTO> getAssinaturasPorCliente(@PathVariable Long codcli) {
+        return assinaturaService.getAssinaturasPorCliente(codcli);
+    }
+
+    @GetMapping("assinaturas/assinapp/{codapp}")
+    public List<AssinaturaDTO> getAssinaturasPorAplicativo(@PathVariable Long codapp) {
+        return assinaturaService.getAssinaturasPorAplicativo(codapp);
+    }
+
+
 }
 
 class VigenciaRequest {

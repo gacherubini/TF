@@ -1,5 +1,7 @@
 package com.example.trabalhofinal.controllers;
 
+import com.example.trabalhofinal.dto.PagamentoRespostaDTO;
+import com.example.trabalhofinal.dto.RegistrarPagamentoDTO;
 import com.example.trabalhofinal.models.Pagamento;
 import com.example.trabalhofinal.services.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,10 @@ public class PagamentoController {
     @PostMapping("pagamentos/notificacao")
     public void receberNotificacaoPagamento(@RequestBody Pagamento pagamento) {
         pagamentoService.processarNotificacaoPagamento(pagamento);
+    }
+
+    @PostMapping("/registrarpagamento")
+    public PagamentoRespostaDTO registrarPagamento(@RequestBody RegistrarPagamentoDTO registrarPagamentoDTO) {
+        return pagamentoService.registrarPagamento(registrarPagamentoDTO);
     }
 }

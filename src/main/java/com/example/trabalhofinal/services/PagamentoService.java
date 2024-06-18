@@ -1,5 +1,7 @@
 package com.example.trabalhofinal.services;
 
+import com.example.trabalhofinal.dto.PagamentoRespostaDTO;
+import com.example.trabalhofinal.dto.RegistrarPagamentoDTO;
 import com.example.trabalhofinal.models.Assinatura;
 import com.example.trabalhofinal.models.Pagamento;
 import com.example.trabalhofinal.repositories.AssinaturaRepository;
@@ -7,6 +9,8 @@ import com.example.trabalhofinal.repositories.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,5 +48,44 @@ public class PagamentoService {
             assinatura.setFimVigencia(assinatura.getFimVigencia().plusMonths(1));
             assinaturaRepository.save(assinatura);
         }
+    }
+
+    public PagamentoRespostaDTO registrarPagamento(RegistrarPagamentoDTO registrarPagamentoDTO) {
+        Optional<Assinatura> assinaturaOpt = assinaturaRepository.findById(registrarPagamentoDTO.getCodass());
+        PagamentoRespostaDTO resposta = new PagamentoRespostaDTO();
+
+        if (!assinaturaOpt.isPresent()) {
+            resposta.setStatus("ASSINATURA_NAO_ENCONTRADA");
+            resposta.setData("");
+            resposta.setValorEstornado(0);
+            return resposta;
+        }
+
+        Assinatura assinatura = assinaturaOpt.get();
+        double valorEsperado = assinatura.getAplicativo().getCustoMensal();
+        LocalDate dataPagamento = LocalDate.of(registrarPagamentoDTO.getAno(), registrarPagamentoDTO.getMes(), registrarPagamentoDTO.getDia());
+
+        if (registrarPagamentoDTO.getValorPago() != valorEsperado) {
+            resposta.setStatus("VALOR_INCORRETO");
+            resposta.setData(dataPagamento.format(DateTimeFormatter.ISO_DATE));
+            resposta.setValorEstornado(registrarPagamentoDTO.getValorPago());
+            return resposta;
+        }
+
+        Pagamento pagamento = new Pagamento();
+        pagamento.setAssinatura(assinatura);
+        pagamento.setValorPago(registrarPagamentoDTO.getValorPago());
+        pagamento.setDataPagamento(dataPagamento);
+        pagamentoRepository.save(pagamento);
+
+        // Atualizar a validade da assinatura
+        assinatura.setFimVigencia(assinatura.getFimVigencia().plusMonths(1));
+        assinaturaRepository.save(assinatura);
+
+        resposta.setStatus("PAGAMENTO_OK");
+        resposta.setData(dataPagamento.format(DateTimeFormatter.ISO_DATE));
+        resposta.setValorEstornado(0);
+
+        return resposta;
     }
 }

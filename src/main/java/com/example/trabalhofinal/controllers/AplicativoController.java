@@ -1,5 +1,6 @@
 package com.example.trabalhofinal.controllers;
 
+import com.example.trabalhofinal.dto.AtualizarCustoDTO;
 import com.example.trabalhofinal.models.Aplicativo;
 import com.example.trabalhofinal.services.AplicativoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +36,8 @@ public class AplicativoController {
         aplicativoService.deleteAplicativo(id);
     }
 
-    @PutMapping("/{id}/atualizar-custo")
-    public Aplicativo atualizarCustoMensal(@PathVariable Long id, @RequestBody AtualizarCustoRequest atualizarCustoRequest) {
-        return aplicativoService.atualizarCustoMensal(id, atualizarCustoRequest.getCustoMensal());
-    }
-}
-
-class AtualizarCustoRequest {
-    private double custoMensal;
-
-    public double getCustoMensal() {
-        return custoMensal;
-    }
-
-    public void setCustoMensal(double custoMensal) {
-        this.custoMensal = custoMensal;
+    @PostMapping("/atualizacusto/{idAplicativo}")
+    public Aplicativo atualizarCustoMensal(@PathVariable Long idAplicativo, @RequestBody AtualizarCustoDTO atualizarCustoDTO) {
+        return aplicativoService.atualizarCustoMensal(idAplicativo, atualizarCustoDTO.getCusto());
     }
 }
