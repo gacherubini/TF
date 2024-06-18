@@ -34,4 +34,9 @@ public class PagamentoController {
     public void deletePagamento(@PathVariable Long id) {
         pagamentoService.deletePagamento(id);
     }
+
+    @PostMapping("/notificacao")
+    public void receberNotificacaoPagamento(@RequestBody Pagamento pagamento) {
+        pagamentoService.processarNotificacaoPagamento(pagamento);
+    }
 }

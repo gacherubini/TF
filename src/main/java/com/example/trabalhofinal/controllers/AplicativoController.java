@@ -8,30 +8,47 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/aplicativos")
+@RequestMapping("/servcad")
 public class AplicativoController {
 
     @Autowired
     private AplicativoService aplicativoService;
 
-    @GetMapping
+    @GetMapping("/aplicativos")
     public List<Aplicativo> getAllAplicativos() {
         return aplicativoService.getAllAplicativos();
     }
 
-    @PostMapping
+    @PostMapping("/aplicativos")
     public Aplicativo saveAplicativo(@RequestBody Aplicativo aplicativo) {
         return aplicativoService.saveAplicativo(aplicativo);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("aplicativos/{id}")
     public Aplicativo updateAplicativo(@PathVariable Long id, @RequestBody Aplicativo aplicativo) {
         aplicativo.setId(id);
         return aplicativoService.updateAplicativo(aplicativo);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("aplicativos/{id}")
     public void deleteAplicativo(@PathVariable Long id) {
         aplicativoService.deleteAplicativo(id);
+    }
+
+    @PutMapping("/{id}/atualizar-custo")
+    public Aplicativo atualizarCustoMensal(@PathVariable Long id, @RequestBody AtualizarCustoRequest atualizarCustoRequest) {
+        return aplicativoService.atualizarCustoMensal(id, atualizarCustoRequest.getCustoMensal());
+    }
+}
+
+class AtualizarCustoRequest {
+    private double custoMensal;
+
+    public double getCustoMensal() {
+        return custoMensal;
+    }
+
+    public void setCustoMensal(double custoMensal) {
+        this.custoMensal = custoMensal;
     }
 }

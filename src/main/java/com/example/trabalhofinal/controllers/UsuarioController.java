@@ -34,4 +34,9 @@ public class UsuarioController {
     public void deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
     }
+
+    @PostMapping("/usuvalido")
+    public boolean isUsuarioValido(@RequestBody String identificador) {
+        return usuarioService.isUsuarioValido(identificador);
+    }
 }

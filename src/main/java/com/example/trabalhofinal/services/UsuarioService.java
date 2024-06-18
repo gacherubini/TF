@@ -5,6 +5,9 @@ import com.example.trabalhofinal.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+
 import java.util.List;
 
 @Service
@@ -27,4 +30,10 @@ public class UsuarioService {
     public void deleteUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
+
+    public boolean isUsuarioValido(String identificador) {
+        Optional<Usuario> usuario = usuarioRepository.findByUsuario(identificador);
+        return usuario.isPresent();
+    }
+
 }

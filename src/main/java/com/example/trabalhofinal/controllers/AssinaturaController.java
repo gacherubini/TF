@@ -9,46 +9,51 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/assinaturas")
+@RequestMapping("/servcad")
 public class AssinaturaController {
 
     @Autowired
     private AssinaturaService assinaturaService;
 
-    @GetMapping
+    @GetMapping("/assinaturas")
     public List<Assinatura> getAllAssinaturas() {
         return assinaturaService.getAllAssinaturas();
     }
 
-    @GetMapping("/cliente/{clienteId}")
+    @GetMapping("/assinaturas/cliente/{clienteId}")
     public List<Assinatura> getAssinaturasByClienteId(@PathVariable Long clienteId) {
         return assinaturaService.getAssinaturasByClienteId(clienteId);
     }
 
-    @GetMapping("/aplicativo/{aplicativoId}")
+    @GetMapping("/assinaturas/aplicativo/{aplicativoId}")
     public List<Assinatura> getAssinaturasByAplicativoId(@PathVariable Long aplicativoId) {
         return assinaturaService.getAssinaturasByAplicativoId(aplicativoId);
     }
 
-    @PostMapping
+    @PostMapping("/assinaturas")
     public Assinatura saveAssinatura(@RequestBody Assinatura assinatura) {
         return assinaturaService.saveAssinatura(assinatura);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/assinaturas/{id}")
     public Assinatura updateAssinatura(@PathVariable Long id, @RequestBody Assinatura assinatura) {
         assinatura.setId(id);
         return assinaturaService.updateAssinatura(assinatura);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/assinaturas/{id}")
     public void deleteAssinatura(@PathVariable Long id) {
         assinaturaService.deleteAssinatura(id);
     }
 
-    @PutMapping("/vigencia/{id}")
+    @PutMapping("/assinaturas/vigencia/{id}")
     public void updateAssinaturaVigencia(@PathVariable Long id, @RequestBody VigenciaRequest vigenciaRequest) {
         assinaturaService.updateAssinaturaVigencia(id, vigenciaRequest.getInicioVigencia(), vigenciaRequest.getFimVigencia());
+    }
+
+    @GetMapping("/valida")
+    public boolean isAssinaturaValida(@RequestParam Long clienteId, @RequestParam Long assinaturaId) {
+        return assinaturaService.isAssinaturaValida(clienteId, assinaturaId);
     }
 }
 

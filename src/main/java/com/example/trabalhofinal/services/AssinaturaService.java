@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AssinaturaService {
@@ -42,5 +43,14 @@ public class AssinaturaService {
         assinatura.setInicioVigencia(inicioVigencia);
         assinatura.setFimVigencia(fimVigencia);
         assinaturaRepository.save(assinatura);
+    }
+
+    public boolean isAssinaturaValida(Long clienteId, Long assinaturaId) {
+        Optional<Assinatura> assinatura = assinaturaRepository.findById(assinaturaId);
+        if (assinatura.isPresent()) {
+            Assinatura a = assinatura.get();
+            return a.getCliente().getId().equals(clienteId) && a.getFimVigencia().isAfter(LocalDate.now());
+        }
+        return false;
     }
 }

@@ -8,29 +8,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/servcad")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping
+    @GetMapping("/clientes")
     public List<Cliente> getAllClientes() {
         return clienteService.getAllClientes();
     }
 
-    @PostMapping
+    @PostMapping("/clientes")
     public Cliente saveCliente(@RequestBody Cliente cliente) {
         return clienteService.saveCliente(cliente);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("clientes/{id}")
     public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         cliente.setId(id);
         return clienteService.updateCliente(cliente);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("clientes/{id}")
     public void deleteCliente(@PathVariable Long id) {
         clienteService.deleteCliente(id);
     }
