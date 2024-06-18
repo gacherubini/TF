@@ -13,6 +13,14 @@ public class Aplicativo {
     private String nome;
     private double custoMensal;
 
+    public Aplicativo() {
+    }
+
+    public Aplicativo(String nome, double custoMensal) {
+        this.nome = nome;
+        this.custoMensal = custoMensal;
+    }
+
     // Getters e Setters
     public Long getId() {
         return id;

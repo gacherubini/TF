@@ -13,6 +13,15 @@ public class Cliente {
     private String nome;
     private String email;
 
+    // Construtor padrão
+    public Cliente() {
+    }
+
+    public Cliente(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
+    }
+
     // Getters e Setters
     public Long getId() {
         return id;

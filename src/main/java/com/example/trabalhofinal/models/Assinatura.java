@@ -20,6 +20,16 @@ public class Assinatura {
     private LocalDate inicioVigencia;
     private LocalDate fimVigencia;
 
+    public Assinatura() {
+    }
+
+    public Assinatura(Cliente cliente, Aplicativo aplicativo, LocalDate inicioVigencia, LocalDate fimVigencia) {
+        this.cliente = cliente;
+        this.aplicativo = aplicativo;
+        this.inicioVigencia = inicioVigencia;
+        this.fimVigencia = fimVigencia;
+    }
+
     // Getters e Setters
     public Long getId() {
         return id;
