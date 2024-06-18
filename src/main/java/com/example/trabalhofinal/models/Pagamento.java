@@ -13,8 +13,9 @@ public class Pagamento {
     @JoinColumn(name = "assinatura_id")
     private Assinatura assinatura;
 
+    private double valorPago;
     private LocalDate dataPagamento;
-    private double valor;
+    private String promocao;
 
     // Getters e Setters
     public Long getId() {
@@ -33,6 +34,14 @@ public class Pagamento {
         this.assinatura = assinatura;
     }
 
+    public double getValorPago() {
+        return valorPago;
+    }
+
+    public void setValorPago(double valorPago) {
+        this.valorPago = valorPago;
+    }
+
     public LocalDate getDataPagamento() {
         return dataPagamento;
     }
@@ -41,11 +50,11 @@ public class Pagamento {
         this.dataPagamento = dataPagamento;
     }
 
-    public double getValor() {
-        return valor;
+    public String getPromocao() {
+        return promocao;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setPromocao(String promocao) {
+        this.promocao = promocao;
     }
 }

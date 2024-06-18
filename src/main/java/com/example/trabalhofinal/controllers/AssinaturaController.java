@@ -46,8 +46,29 @@ public class AssinaturaController {
         assinaturaService.deleteAssinatura(id);
     }
 
-    @PutMapping("/validade/{id}")
-    public void updateAssinaturaValidade(@PathVariable Long id, @RequestBody String validade) {
-        assinaturaService.updateAssinaturaValidade(id, LocalDate.parse(validade));
+    @PutMapping("/vigencia/{id}")
+    public void updateAssinaturaVigencia(@PathVariable Long id, @RequestBody VigenciaRequest vigenciaRequest) {
+        assinaturaService.updateAssinaturaVigencia(id, vigenciaRequest.getInicioVigencia(), vigenciaRequest.getFimVigencia());
+    }
+}
+
+class VigenciaRequest {
+    private LocalDate inicioVigencia;
+    private LocalDate fimVigencia;
+
+    public LocalDate getInicioVigencia() {
+        return inicioVigencia;
+    }
+
+    public void setInicioVigencia(LocalDate inicioVigencia) {
+        this.inicioVigencia = inicioVigencia;
+    }
+
+    public LocalDate getFimVigencia() {
+        return fimVigencia;
+    }
+
+    public void setFimVigencia(LocalDate fimVigencia) {
+        this.fimVigencia = fimVigencia;
     }
 }

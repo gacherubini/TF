@@ -37,9 +37,10 @@ public class AssinaturaService {
         assinaturaRepository.deleteById(id);
     }
 
-    public void updateAssinaturaValidade(Long id, LocalDate validade) {
+    public void updateAssinaturaVigencia(Long id, LocalDate inicioVigencia, LocalDate fimVigencia) {
         Assinatura assinatura = assinaturaRepository.findById(id).orElseThrow();
-        assinatura.setValidade(validade);
+        assinatura.setInicioVigencia(inicioVigencia);
+        assinatura.setFimVigencia(fimVigencia);
         assinaturaRepository.save(assinatura);
     }
 }

@@ -17,7 +17,8 @@ public class Assinatura {
     @JoinColumn(name = "aplicativo_id")
     private Aplicativo aplicativo;
 
-    private LocalDate validade;
+    private LocalDate inicioVigencia;
+    private LocalDate fimVigencia;
 
     // Getters e Setters
     public Long getId() {
@@ -44,11 +45,19 @@ public class Assinatura {
         this.aplicativo = aplicativo;
     }
 
-    public LocalDate getValidade() {
-        return validade;
+    public LocalDate getInicioVigencia() {
+        return inicioVigencia;
     }
 
-    public void setValidade(LocalDate validade) {
-        this.validade = validade;
+    public void setInicioVigencia(LocalDate inicioVigencia) {
+        this.inicioVigencia = inicioVigencia;
+    }
+
+    public LocalDate getFimVigencia() {
+        return fimVigencia;
+    }
+
+    public void setFimVigencia(LocalDate fimVigencia) {
+        this.fimVigencia = fimVigencia;
     }
 }
