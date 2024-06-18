@@ -47,9 +47,19 @@ public class AssinaturaController {
         assinaturaService.updateAssinaturaVigencia(id, vigenciaRequest.getInicioVigencia(), vigenciaRequest.getFimVigencia());
     }
 
-    @GetMapping("assinaturas/assinvalida/{codassin}")
+    @GetMapping("assinaturas/valida")
+    public boolean isAssinaturaValidaPar(@RequestParam Long clienteId, @RequestParam Long assinaturaId) {
+        return assinaturaService.isAssinaturaValida(clienteId, assinaturaId);
+    }
+
+    @GetMapping("assinatutas/assinvalida/{codassin}")
     public boolean isAssinaturaValida(@PathVariable Long codassin) {
         return assinaturaService.isAssinaturaValida(codassin);
+    }
+
+    @GetMapping("assinaturas/assinapp/{codapp}")
+    public List<AssinaturaDTO> getAssinaturasPorAplicativo(@PathVariable Long codapp) {
+        return assinaturaService.getAssinaturasPorAplicativo(codapp);
     }
 
     @GetMapping("assinaturas/{tipo}")
@@ -61,13 +71,6 @@ public class AssinaturaController {
     public List<AssinaturaDTO> getAssinaturasPorCliente(@PathVariable Long codcli) {
         return assinaturaService.getAssinaturasPorCliente(codcli);
     }
-
-    @GetMapping("assinaturas/assinapp/{codapp}")
-    public List<AssinaturaDTO> getAssinaturasPorAplicativo(@PathVariable Long codapp) {
-        return assinaturaService.getAssinaturasPorAplicativo(codapp);
-    }
-
-
 }
 
 class VigenciaRequest {

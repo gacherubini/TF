@@ -68,6 +68,15 @@ public class AssinaturaService {
         assinaturaRepository.save(assinatura);
     }
 
+    public boolean isAssinaturaValida(Long clienteId, Long assinaturaId) {
+        Optional<Assinatura> assinatura = assinaturaRepository.findById(assinaturaId);
+        if (assinatura.isPresent()) {
+            Assinatura a = assinatura.get();
+            return a.getCliente().getId().equals(clienteId) && a.getFimVigencia().isAfter(LocalDate.now());
+        }
+        return false;
+    }
+
     public boolean isAssinaturaValida(Long codassin) {
         Optional<Assinatura> assinaturaOpt = assinaturaRepository.findById(codassin);
         if (assinaturaOpt.isPresent()) {
