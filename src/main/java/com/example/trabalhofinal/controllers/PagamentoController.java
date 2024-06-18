@@ -8,34 +8,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pagamentos")
+@RequestMapping("/servcad")
 public class PagamentoController {
 
     @Autowired
     private PagamentoService pagamentoService;
 
-    @GetMapping
+    @GetMapping("/pagamentos")
     public List<Pagamento> getAllPagamentos() {
         return pagamentoService.getAllPagamentos();
     }
 
-    @PostMapping
+    @PostMapping("/pagamentos")
     public Pagamento savePagamento(@RequestBody Pagamento pagamento) {
         return pagamentoService.savePagamento(pagamento);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("pagamentos/{id}")
     public Pagamento updatePagamento(@PathVariable Long id, @RequestBody Pagamento pagamento) {
         pagamento.setId(id);
         return pagamentoService.updatePagamento(pagamento);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("pagamentos/{id}")
     public void deletePagamento(@PathVariable Long id) {
         pagamentoService.deletePagamento(id);
     }
 
-    @PostMapping("/notificacao")
+    @PostMapping("pagamentos/notificacao")
     public void receberNotificacaoPagamento(@RequestBody Pagamento pagamento) {
         pagamentoService.processarNotificacaoPagamento(pagamento);
     }
