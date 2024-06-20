@@ -1,6 +1,6 @@
 package com.example.trabalhofinal.controllers;
 
-import com.example.trabalhofinal.dto.AtualizarCustoDTO;
+
 import com.example.trabalhofinal.models.Aplicativo;
 import com.example.trabalhofinal.services.AplicativoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +26,18 @@ public class AplicativoController {
     }
 
     @PutMapping("aplicativos/{id}")
-    public Aplicativo updateAplicativo(@PathVariable Long id, @RequestBody Aplicativo aplicativo) {
+    public Aplicativo updateAplicativo(@PathVariable Long id, @RequestBody Aplicativo aplicativo) { // checar
         aplicativo.setId(id);
         return aplicativoService.updateAplicativo(aplicativo);
     }
 
-    @DeleteMapping("aplicativos/{id}")
-    public void deleteAplicativo(@PathVariable Long id) {
-        aplicativoService.deleteAplicativo(id);
-    }
+    // @DeleteMapping("aplicativos/{id}")
+    // public void deleteAplicativo(@PathVariable Long id) {
+    //     aplicativoService.deleteAplicativo(id);
+    // }
 
-    @PostMapping("/atualizacusto/{idAplicativo}")
-    public Aplicativo atualizarCustoMensal(@PathVariable Long idAplicativo, @RequestBody AtualizarCustoDTO atualizarCustoDTO) {
-        return aplicativoService.atualizarCustoMensal(idAplicativo, atualizarCustoDTO.getCusto());
+    @PutMapping("/atualizacusto/{idAplicativo}")
+    public Aplicativo atualizarCustoMensal(@PathVariable Long idAplicativo, @RequestBody Double custo) {
+        return aplicativoService.atualizarCustoMensal(idAplicativo, custo);
     }
 }

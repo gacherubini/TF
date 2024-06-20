@@ -40,7 +40,7 @@ public class AssinaturaService {
     }
 
 
-    public Assinatura saveAssinaturaWithIDs(Long clienteId, Long aplicativoId) {
+    public Assinatura saveAssinaturaWithCliAndAppIDs(Long clienteId, Long aplicativoId) {
         Cliente cliente = ClienteRepository.findById(clienteId).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
         Aplicativo aplicativo = AplicativoRepository.findById(aplicativoId).orElseThrow(() -> new RuntimeException("Aplicativo não encontrado"));
 
@@ -72,7 +72,7 @@ public class AssinaturaService {
         Optional<Assinatura> assinatura = assinaturaRepository.findById(assinaturaId);
         if (assinatura.isPresent()) {
             Assinatura a = assinatura.get();
-            return a.getCliente().getId().equals(clienteId) && a.getFimVigencia().isAfter(LocalDate.now());
+            return a.getCliente().getId().equals(clienteId) && a.getFimVigencia().isAfter(LocalDate.now()); //checar
         }
         return false;
     }
@@ -119,11 +119,11 @@ public class AssinaturaService {
 
     public List<AssinaturaDTO> getAssinaturasPorCliente(Long clienteId) {
         List<Assinatura> assinaturas = assinaturaRepository.findByClienteId(clienteId);
-        return assinaturas.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return assinaturas.stream().map(this::convertToDTO).collect(Collectors.toList()); //checar
     }
 
     public List<AssinaturaDTO> getAssinaturasPorAplicativo(Long aplicativoId) {
-        List<Assinatura> assinaturas = assinaturaRepository.findByAplicativoId(aplicativoId);
+        List<Assinatura> assinaturas = assinaturaRepository.findByAplicativoId(aplicativoId); //checar
         return assinaturas.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 }

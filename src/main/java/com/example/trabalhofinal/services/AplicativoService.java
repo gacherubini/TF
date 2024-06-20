@@ -29,8 +29,8 @@ public class AplicativoService {
     }
 
     public Aplicativo atualizarCustoMensal(Long idAplicativo, double novoCusto) {
-        Aplicativo aplicativo = aplicativoRepository.findById(idAplicativo)
-                .orElseThrow(() -> new RuntimeException("Aplicativo não encontrado"));
+        Aplicativo aplicativo = aplicativoRepository.findById(idAplicativo) 
+        .orElseThrow(() -> new RuntimeException("Aplicativo não encontrado"));
         aplicativo.setCustoMensal(novoCusto);
         return aplicativoRepository.save(aplicativo);
     }

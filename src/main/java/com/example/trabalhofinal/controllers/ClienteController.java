@@ -25,7 +25,7 @@ public class ClienteController {
     }
 
     @PutMapping("clientes/{id}")
-    public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+    public Cliente updateCliente(@PathVariable Long id, @RequestBody Cliente cliente) { //checar
         cliente.setId(id);
         return clienteService.updateCliente(cliente);
     }
