@@ -1,12 +1,14 @@
 package com.example.trabalhofinal.services;
 
 import com.example.trabalhofinal.dto.AssinaturaDTO;
+import com.example.trabalhofinal.helpers.helpers;
 import com.example.trabalhofinal.models.Aplicativo;
 import com.example.trabalhofinal.models.Assinatura;
 import com.example.trabalhofinal.models.Cliente;
 import com.example.trabalhofinal.repositories.AplicativoRepository;
 import com.example.trabalhofinal.repositories.AssinaturaRepository;
 import com.example.trabalhofinal.repositories.ClienteRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,20 +37,21 @@ public class AssinaturaService {
         return assinaturaRepository.findByAplicativoId(aplicativoId);
     }
 
-    public Assinatura saveAssinatura(Assinatura assinatura) {
-        return assinaturaRepository.save(assinatura);
-    }
-
-
     public Assinatura saveAssinaturaWithCliAndAppIDs(Long clienteId, Long aplicativoId) {
         Cliente cliente = ClienteRepository.findById(clienteId).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
         Aplicativo aplicativo = AplicativoRepository.findById(aplicativoId).orElseThrow(() -> new RuntimeException("Aplicativo não encontrado"));
+
+
+        Optional<Assinatura> existingAssinatura = assinaturaRepository.findByClienteIdAndAplicativoId(clienteId, aplicativoId);
+
+        LocalDate FimVigencia;
 
         Assinatura assinatura = new Assinatura();
         assinatura.setCliente(cliente);
         assinatura.setAplicativo(aplicativo);
         assinatura.setInicioVigencia(LocalDate.now());
-        assinatura.setFimVigencia(LocalDate.now().plusMonths(1));
+        FimVigencia = helpers.isFirstAssinatura(existingAssinatura, assinatura);
+        assinatura.setFimVigencia(FimVigencia);
 
         return assinaturaRepository.save(assinatura);
     }

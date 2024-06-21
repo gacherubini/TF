@@ -21,11 +21,6 @@ public class AssinaturaController {
         return assinaturaService.getAllAssinaturas();
     }
 
-    @PostMapping("/assinaturas")
-    public Assinatura saveAssinatura(@RequestBody Assinatura assinatura) {
-        return assinaturaService.saveAssinatura(assinatura);
-    }
-
     @PostMapping
     public Assinatura saveAssinaturaWithCliAndAppIDs(@RequestBody AssinaturaDTO assinaturaDTO) {
         return assinaturaService.saveAssinaturaWithCliAndAppIDs(assinaturaDTO.getClienteId(), assinaturaDTO.getAplicativoId());
@@ -43,8 +38,8 @@ public class AssinaturaController {
     }
 
     @PutMapping("/assinaturas/vigencia/{id}")
-    public void updateAssinaturaVigencia(@PathVariable Long id, @RequestBody VigenciaRequest vigenciaRequest) {
-        assinaturaService.updateAssinaturaVigencia(id, vigenciaRequest.getInicioVigencia(), vigenciaRequest.getFimVigencia());
+    public void updateAssinaturaVigencia(@PathVariable Long id, @RequestBody AssinaturaDTO assinaturaDTO) {
+        assinaturaService.updateAssinaturaVigencia(id, assinaturaDTO.getInicioVigencia(), assinaturaDTO.getFimVigencia());
     }
 
     @GetMapping("assinaturas/valida")
@@ -70,26 +65,5 @@ public class AssinaturaController {
     @GetMapping("assinaturas/assincli/{codcli}")
     public List<AssinaturaDTO> getAssinaturasPorCliente(@PathVariable Long codcli) {
         return assinaturaService.getAssinaturasPorCliente(codcli);
-    }
-}
-
-class VigenciaRequest {
-    private LocalDate inicioVigencia;
-    private LocalDate fimVigencia;
-
-    public LocalDate getInicioVigencia() {
-        return inicioVigencia;
-    }
-
-    public void setInicioVigencia(LocalDate inicioVigencia) {
-        this.inicioVigencia = inicioVigencia;
-    }
-
-    public LocalDate getFimVigencia() {
-        return fimVigencia;
-    }
-
-    public void setFimVigencia(LocalDate fimVigencia) {
-        this.fimVigencia = fimVigencia;
     }
 }

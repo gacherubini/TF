@@ -78,7 +78,6 @@ public class PagamentoService {
         pagamento.setDataPagamento(dataPagamento);
         pagamentoRepository.save(pagamento);
 
-        // Atualizar a validade da assinatura
         assinatura.setFimVigencia(assinatura.getFimVigencia().plusMonths(1));
         assinaturaRepository.save(assinatura);
 

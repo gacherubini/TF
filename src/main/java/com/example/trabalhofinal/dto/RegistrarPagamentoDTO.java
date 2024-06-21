@@ -1,6 +1,6 @@
 package com.example.trabalhofinal.dto;
 
-public class RegistrarPagamentoDTO {
+    public class RegistrarPagamentoDTO {
     private int dia;
     private int mes;
     private int ano;

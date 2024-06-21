@@ -27,7 +27,6 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Criar e salvar clientes
         Cliente[] clientes = {
                 new Cliente("Ana Silva", "ana.silva@example.com"),
                 new Cliente("Bruno Souza", "bruno.souza@example.com"),
@@ -42,7 +41,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         };
         clienteRepository.saveAll(Arrays.asList(clientes));
 
-        // Criar e salvar aplicativos
         Aplicativo[] aplicativos = {
                 new Aplicativo("Fitness App", 19.99),
                 new Aplicativo("Finance Tracker", 9.99),
@@ -52,7 +50,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         };
         aplicativoRepository.saveAll(Arrays.asList(aplicativos));
 
-        // Criar e salvar assinaturas
         Assinatura[] assinaturas = {
                 new Assinatura(clientes[0], aplicativos[0], LocalDate.now(), LocalDate.now().plusMonths(1)),
                 new Assinatura(clientes[1], aplicativos[1], LocalDate.now(), LocalDate.now().plusMonths(1)),
