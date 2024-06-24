@@ -3,8 +3,10 @@ package com.example.trabalhofinal.services;
 import com.example.trabalhofinal.dto.PagamentoRespostaDTO;
 import com.example.trabalhofinal.dto.RegistrarPagamentoDTO;
 import com.example.trabalhofinal.models.Assinatura;
+import com.example.trabalhofinal.models.Promocao;
 import com.example.trabalhofinal.models.Pagamento;
 import com.example.trabalhofinal.repositories.AssinaturaRepository;
+import com.example.trabalhofinal.repositories.PromocaoRepository;
 import com.example.trabalhofinal.repositories.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class PagamentoService {
 
     private AssinaturaRepository assinaturaRepository;
 
+    private PromocaoRepository promocaoRepository;
 
     public List<Pagamento> getAllPagamentos() {
         return pagamentoRepository.findAll();
@@ -65,6 +68,22 @@ public class PagamentoService {
         double valorEsperado = assinatura.getAplicativo().getCustoMensal();
         LocalDate dataPagamento = LocalDate.of(registrarPagamentoDTO.getAno(), registrarPagamentoDTO.getMes(), registrarPagamentoDTO.getDia());
 
+        int diasExtras = 0;
+        if (registrarPagamentoDTO.getCodPromocao() != null) {
+            Optional<Promocao> promocaoOpt = promocaoRepository.findById(registrarPagamentoDTO.getCodPromocao());
+            if (promocaoOpt.isPresent()) {
+                Promocao promocao = promocaoOpt.get();
+                if (!promocao.isAtiva() || promocao.getValidade().isBefore(dataPagamento)) {
+                    resposta.setStatus("PROMOCAO_NAO_APLICAVEL");
+                    resposta.setData(dataPagamento.format(DateTimeFormatter.ISO_DATE));
+                    resposta.setValorEstornado(registrarPagamentoDTO.getValorPago());
+                    return resposta;
+                }
+                diasExtras = promocao.getDiasExtras();
+                valorEsperado = valorEsperado - (valorEsperado * promocao.getDesconto());
+            }
+        }
+
         if (registrarPagamentoDTO.getValorPago() != valorEsperado) {
             resposta.setStatus("VALOR_INCORRETO");
             resposta.setData(dataPagamento.format(DateTimeFormatter.ISO_DATE));
@@ -78,11 +97,18 @@ public class PagamentoService {
         pagamento.setDataPagamento(dataPagamento);
         pagamentoRepository.save(pagamento);
 
-        assinatura.setFimVigencia(assinatura.getFimVigencia().plusMonths(1));
+        LocalDate novaValidade;
+        if (assinatura.getFimVigencia().isBefore(dataPagamento)) {
+            novaValidade = dataPagamento.plusDays(30 + diasExtras);
+        } else {
+            novaValidade = assinatura.getFimVigencia().plusDays(30 + diasExtras);
+        }
+
+        assinatura.setFimVigencia(novaValidade);
         assinaturaRepository.save(assinatura);
 
         resposta.setStatus("PAGAMENTO_OK");
-        resposta.setData(dataPagamento.format(DateTimeFormatter.ISO_DATE));
+        resposta.setData(assinatura.getFimVigencia().format(DateTimeFormatter.ISO_DATE));
         resposta.setValorEstornado(0);
 
         return resposta;

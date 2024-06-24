@@ -31,10 +31,10 @@ public class AplicativoController {
         return aplicativoService.updateAplicativo(aplicativo);
     }
 
-    // @DeleteMapping("aplicativos/{id}")
-    // public void deleteAplicativo(@PathVariable Long id) {
-    //     aplicativoService.deleteAplicativo(id);
-    // }
+     @DeleteMapping("aplicativos/{id}")
+     public void deleteAplicativo(@PathVariable Long id) {
+         aplicativoService.deleteAplicativo(id);
+     }
 
     @PutMapping("/atualizacusto/{idAplicativo}")
     public Aplicativo atualizarCustoMensal(@PathVariable Long idAplicativo, @RequestBody Double custo) {
