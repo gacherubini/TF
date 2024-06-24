@@ -65,8 +65,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         assinaturaRepository.saveAll(Arrays.asList(assinaturas));
 
         Promocao[] promocoes = {
-                new Promocao("Promoção Anual 40%", 365, 0.40, LocalDate.now().plusYears(1), true),
-                new Promocao("Pague 30 e ganhe 45 dias", 45, 0.0, LocalDate.now().plusMonths(6), true)
+                new Promocao("Promoção Anual 30%", 365, 0.30, LocalDate.now().plusYears(1), true),
+                new Promocao("Pague 30 e ganhe 50 dias", 50, 0.0, LocalDate.now().plusMonths(6), true)
         };
         promocaoRepository.saveAll(Arrays.asList(promocoes));
     }
