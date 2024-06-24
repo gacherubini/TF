@@ -6,8 +6,10 @@ package com.example.trabalhofinal.dto;
     private int ano;
     private Long codass;
     private double valorPago;
+    private Long codPromocao;
 
-    // Getters e Setters
+
+        // Getters e Setters
     public int getDia() {
         return dia;
     }
@@ -47,4 +49,8 @@ package com.example.trabalhofinal.dto;
     public void setValorPago(double valorPago) {
         this.valorPago = valorPago;
     }
+
+    public Long getCodPromocao() {return codPromocao;}
+
+        public void setCodPromocao(Long codPromocao) {this.codPromocao = codPromocao;}
 }

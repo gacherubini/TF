@@ -3,9 +3,11 @@ package com.example.trabalhofinal;
 import com.example.trabalhofinal.models.Aplicativo;
 import com.example.trabalhofinal.models.Assinatura;
 import com.example.trabalhofinal.models.Cliente;
+import com.example.trabalhofinal.models.Promocao;
 import com.example.trabalhofinal.repositories.AplicativoRepository;
 import com.example.trabalhofinal.repositories.AssinaturaRepository;
 import com.example.trabalhofinal.repositories.ClienteRepository;
+import com.example.trabalhofinal.repositories.PromocaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,9 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     @Autowired
     private AssinaturaRepository assinaturaRepository;
+
+    @Autowired
+    private PromocaoRepository promocaoRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -58,5 +63,11 @@ public class DatabaseInitializer implements CommandLineRunner {
                 new Assinatura(clientes[4], aplicativos[4], LocalDate.now(), LocalDate.now().plusMonths(1))
         };
         assinaturaRepository.saveAll(Arrays.asList(assinaturas));
+
+        Promocao[] promocoes = {
+                new Promocao("Promoção Anual 40%", 365, 0.40, LocalDate.now().plusYears(1), true),
+                new Promocao("Pague 30 e ganhe 45 dias", 45, 0.0, LocalDate.now().plusMonths(6), true)
+        };
+        promocaoRepository.saveAll(Arrays.asList(promocoes));
     }
 }
