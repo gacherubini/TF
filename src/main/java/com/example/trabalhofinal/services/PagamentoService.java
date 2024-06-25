@@ -16,14 +16,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class PagamentoService {
+
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
+    @Autowired
     private AssinaturaRepository assinaturaRepository;
 
+    @Autowired
     private PromocaoRepository promocaoRepository;
 
     public List<Pagamento> getAllPagamentos() {
@@ -84,7 +86,8 @@ public class PagamentoService {
             }
         }
 
-        if (registrarPagamentoDTO.getValorPago() != valorEsperado) {
+        // Comparação de valores monetários com tolerância
+        if (Math.abs(registrarPagamentoDTO.getValorPago() - valorEsperado) > 0.01) {
             resposta.setStatus("VALOR_INCORRETO");
             resposta.setData(dataPagamento.format(DateTimeFormatter.ISO_DATE));
             resposta.setValorEstornado(registrarPagamentoDTO.getValorPago());
@@ -97,14 +100,14 @@ public class PagamentoService {
         pagamento.setDataPagamento(dataPagamento);
         pagamentoRepository.save(pagamento);
 
-        LocalDate novaValidade;
+        LocalDate novaDataDeFimDeVigencia;
         if (assinatura.getFimVigencia().isBefore(dataPagamento)) {
-            novaValidade = dataPagamento.plusDays(30 + diasExtras);
+            novaDataDeFimDeVigencia = dataPagamento.plusDays(30 + diasExtras);
         } else {
-            novaValidade = assinatura.getFimVigencia().plusDays(30 + diasExtras);
+            novaDataDeFimDeVigencia = assinatura.getFimVigencia().plusDays(30 + diasExtras);
         }
 
-        assinatura.setFimVigencia(novaValidade);
+        assinatura.setFimVigencia(novaDataDeFimDeVigencia);
         assinaturaRepository.save(assinatura);
 
         resposta.setStatus("PAGAMENTO_OK");
