@@ -33,25 +33,25 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Cliente[] clientes = {
-                new Cliente("Ana Silva", "ana.silva@example.com"),
-                new Cliente("Bruno Souza", "bruno.souza@example.com"),
-                new Cliente("Carla Ferreira", "carla.ferreira@example.com"),
-                new Cliente("Daniel Lima", "daniel.lima@example.com"),
-                new Cliente("Eliana Costa", "eliana.costa@example.com"),
-                new Cliente("Fabio Pereira", "fabio.pereira@example.com"),
-                new Cliente("Gabriela Oliveira", "gabriela.oliveira@example.com"),
-                new Cliente("Hugo Martins", "hugo.martins@example.com"),
-                new Cliente("Isabela Rocha", "isabela.rocha@example.com"),
-                new Cliente("João Mendes", "joao.mendes@example.com")
+                new Cliente("Ana Silva", "ana.silva@gmail.com"),
+                new Cliente("Bruno Souza", "bruno.souza@gmail.com"),
+                new Cliente("Carla Ferreira", "carla.ferreira@gmail.com"),
+                new Cliente("Daniel Lima", "daniel.lima@gmail.com"),
+                new Cliente("Eliana Costa", "eliana.costa@gmail.com"),
+                new Cliente("Fabio Pereira", "fabio.pereira@gmail.com"),
+                new Cliente("Gabriela Oliveira", "gabriela.oliveira@gmail.com"),
+                new Cliente("Hugo Martins", "hugo.martins@gmail.com"),
+                new Cliente("Isabela Rocha", "isabela.rocha@gmail.com"),
+                new Cliente("João Mendes", "joao.mendes@gmail.com")
         };
         clienteRepository.saveAll(Arrays.asList(clientes));
 
         Aplicativo[] aplicativos = {
-                new Aplicativo("Fitness App", 19.99),
-                new Aplicativo("Finance Tracker", 9.99),
-                new Aplicativo("Recipe Book", 4.99),
-                new Aplicativo("Language Learner", 14.99),
-                new Aplicativo("Music Streaming", 29.99)
+                new Aplicativo("Spotify", 19.99),
+                new Aplicativo("Prime Vídeo", 9.99),
+                new Aplicativo("BlueJ", 4.99),
+                new Aplicativo("Disney Plus", 14.99),
+                new Aplicativo("Netflix", 45.99)
         };
         aplicativoRepository.saveAll(Arrays.asList(aplicativos));
 
