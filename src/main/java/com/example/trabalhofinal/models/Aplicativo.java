@@ -1,9 +1,9 @@
 package com.example.trabalhofinal.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 public class Aplicativo {
@@ -12,6 +12,9 @@ public class Aplicativo {
     private Long id;
     private String nome;
     private double custoMensal;
+
+    @OneToMany(mappedBy = "aplicativo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Assinatura> assinaturas = new ArrayList<>();
 
     public Aplicativo() {
     }
@@ -45,4 +48,6 @@ public class Aplicativo {
     public void setCustoMensal(double custoMensal) {
         this.custoMensal = custoMensal;
     }
+
+
 }

@@ -1,9 +1,6 @@
 package com.example.trabalhofinal.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Cliente {
@@ -13,16 +10,17 @@ public class Cliente {
     private String nome;
     private String email;
 
-    // Construtor padrão
-    public Cliente() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "assinatura_id", nullable = true)
+    private Assinatura assinatura;
+
+    public Cliente() {}
 
     public Cliente(String nome, String email) {
         this.nome = nome;
         this.email = email;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -46,4 +44,5 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

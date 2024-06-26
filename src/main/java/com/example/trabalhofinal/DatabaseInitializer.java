@@ -56,11 +56,11 @@ public class DatabaseInitializer implements CommandLineRunner {
         aplicativoRepository.saveAll(Arrays.asList(aplicativos));
 
         Assinatura[] assinaturas = {
-                new Assinatura(clientes[0], aplicativos[0], LocalDate.now(), LocalDate.now().plusMonths(1)),
-                new Assinatura(clientes[1], aplicativos[1], LocalDate.now(), LocalDate.now().plusMonths(1)),
-                new Assinatura(clientes[2], aplicativos[2], LocalDate.now(), LocalDate.now().plusMonths(1)),
-                new Assinatura(clientes[3], aplicativos[3], LocalDate.now(), LocalDate.now().plusMonths(1)),
-                new Assinatura(clientes[4], aplicativos[4], LocalDate.now(), LocalDate.now().plusMonths(1))
+                new Assinatura(clientes[0], aplicativos[0], LocalDate.now(), LocalDate.now().plusMonths(1), "ATIVA"),
+                new Assinatura(clientes[1], aplicativos[1], LocalDate.now(), LocalDate.now().plusMonths(1), "ATIVA"),
+                new Assinatura(clientes[2], aplicativos[2], LocalDate.now(), LocalDate.now().plusMonths(1), "ATIVA"),
+                new Assinatura(clientes[3], aplicativos[3], LocalDate.now(), LocalDate.now().plusMonths(1), "ATIVA"),
+                new Assinatura(clientes[4], aplicativos[4], LocalDate.now(), LocalDate.now().plusMonths(1), "ATIVA"),
         };
         assinaturaRepository.saveAll(Arrays.asList(assinaturas));
 

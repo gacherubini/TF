@@ -8,7 +8,6 @@ import com.example.trabalhofinal.models.Cliente;
 import com.example.trabalhofinal.repositories.AplicativoRepository;
 import com.example.trabalhofinal.repositories.AssinaturaRepository;
 import com.example.trabalhofinal.repositories.ClienteRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +20,12 @@ import java.util.stream.Collectors;
 public class AssinaturaService {
     @Autowired
     private AssinaturaRepository assinaturaRepository;
-    private ClienteRepository ClienteRepository;
-    private AplicativoRepository AplicativoRepository;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private AplicativoRepository aplicativoRepository;
 
     public List<Assinatura> getAllAssinaturas() {
         return assinaturaRepository.findAll();
@@ -38,20 +40,20 @@ public class AssinaturaService {
     }
 
     public Assinatura saveAssinaturaWithCliAndAppIDs(Long clienteId, Long aplicativoId) {
-        Cliente cliente = ClienteRepository.findById(clienteId).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-        Aplicativo aplicativo = AplicativoRepository.findById(aplicativoId).orElseThrow(() -> new RuntimeException("Aplicativo não encontrado"));
-
+        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        Aplicativo aplicativo = aplicativoRepository.findById(aplicativoId).orElseThrow(() -> new RuntimeException("Aplicativo não encontrado"));
 
         Optional<Assinatura> existingAssinatura = assinaturaRepository.findByClienteIdAndAplicativoId(clienteId, aplicativoId);
 
-        LocalDate FimVigencia;
+        LocalDate fimVigencia;
 
         Assinatura assinatura = new Assinatura();
         assinatura.setCliente(cliente);
         assinatura.setAplicativo(aplicativo);
         assinatura.setInicioVigencia(LocalDate.now());
-        FimVigencia = helpers.isFirstAssinatura(existingAssinatura, assinatura);
-        assinatura.setFimVigencia(FimVigencia);
+        fimVigencia = helpers.isFirstAssinatura(existingAssinatura, assinatura);
+        assinatura.setFimVigencia(fimVigencia);
+        assinatura.setStatus("ATIVA");
 
         return assinaturaRepository.save(assinatura);
     }
@@ -75,7 +77,7 @@ public class AssinaturaService {
         Optional<Assinatura> assinatura = assinaturaRepository.findById(assinaturaId);
         if (assinatura.isPresent()) {
             Assinatura a = assinatura.get();
-            return a.getCliente().getId().equals(clienteId) && a.getFimVigencia().isAfter(LocalDate.now()); //checar
+            return a.getCliente().getId().equals(clienteId) && a.getFimVigencia().isAfter(LocalDate.now());
         }
         return false;
     }
@@ -119,14 +121,13 @@ public class AssinaturaService {
         );
     }
 
-
     public List<AssinaturaDTO> getAssinaturasPorCliente(Long clienteId) {
         List<Assinatura> assinaturas = assinaturaRepository.findByClienteId(clienteId);
-        return assinaturas.stream().map(this::convertToDTO).collect(Collectors.toList()); //checar
+        return assinaturas.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public List<AssinaturaDTO> getAssinaturasPorAplicativo(Long aplicativoId) {
-        List<Assinatura> assinaturas = assinaturaRepository.findByAplicativoId(aplicativoId); //checar
+        List<Assinatura> assinaturas = assinaturaRepository.findByAplicativoId(aplicativoId);
         return assinaturas.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 }

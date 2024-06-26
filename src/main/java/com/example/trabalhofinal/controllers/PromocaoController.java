@@ -8,33 +8,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/promocoes")
+@RequestMapping("/servcad")
 public class PromocaoController {
 
     @Autowired
     private PromocaoService promocaoService;
 
-    @GetMapping
+    @GetMapping("promocoes")
     public List<Promocao> getAllPromocoes() {
         return promocaoService.getAllPromocoes();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("promocoes/{id}")
     public Promocao getPromocaoById(@PathVariable Long id) {
         return promocaoService.getPromocaoById(id);
     }
 
-    @PostMapping
+    @PostMapping("promocoes")
     public Promocao createPromocao(@RequestBody Promocao promocao) {
         return promocaoService.createPromocao(promocao);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("promocoes/{id}")
     public Promocao updatePromocao(@PathVariable Long id, @RequestBody Promocao promocao) {
         return promocaoService.updatePromocao(id, promocao);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("promocoes/{id}")
     public void deletePromocao(@PathVariable Long id) {
         promocaoService.deletePromocao(id);
     }

@@ -10,24 +10,27 @@ public class Assinatura {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "aplicativo_id")
+    @JoinColumn(name = "aplicativo_id", nullable = false)
     private Aplicativo aplicativo;
+
 
     private LocalDate inicioVigencia;
     private LocalDate fimVigencia;
+    private String status;
 
-    public Assinatura() {
-    }
 
-    public Assinatura(Cliente cliente, Aplicativo aplicativo, LocalDate inicioVigencia, LocalDate fimVigencia) {
+    public Assinatura() {}
+
+    public Assinatura(Cliente cliente, Aplicativo aplicativo, LocalDate inicioVigencia, LocalDate fimVigencia, String status) {
         this.cliente = cliente;
         this.aplicativo = aplicativo;
         this.inicioVigencia = inicioVigencia;
         this.fimVigencia = fimVigencia;
+        this.status = status;
     }
 
     // Getters e Setters
@@ -69,5 +72,13 @@ public class Assinatura {
 
     public void setFimVigencia(LocalDate fimVigencia) {
         this.fimVigencia = fimVigencia;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -21,7 +21,7 @@ public class AssinaturaController {
         return assinaturaService.getAllAssinaturas();
     }
 
-    @PostMapping
+    @PostMapping("/assinaturas")
     public Assinatura saveAssinaturaWithCliAndAppIDs(@RequestBody AssinaturaDTO assinaturaDTO) {
         return assinaturaService.saveAssinaturaWithCliAndAppIDs(assinaturaDTO.getClienteId(), assinaturaDTO.getAplicativoId());
     }
