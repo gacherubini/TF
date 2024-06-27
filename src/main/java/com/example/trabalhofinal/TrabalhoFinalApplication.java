@@ -20,7 +20,7 @@ public class TrabalhoFinalApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedOrigins("exquisite-gingersnap-6ce2e7.netlify.app")
+						.allowedOrigins("https://main--exquisite-gingersnap-6ce2e7.netlify.app/")
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 						.allowedHeaders("*")
 						.allowCredentials(true);
