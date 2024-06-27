@@ -1,7 +1,12 @@
 package com.example.trabalhofinal.services;
 
 import com.example.trabalhofinal.models.Aplicativo;
+import com.example.trabalhofinal.models.Pagamento;
+import com.example.trabalhofinal.models.Assinatura;
 import com.example.trabalhofinal.repositories.AplicativoRepository;
+import com.example.trabalhofinal.repositories.AssinaturaRepository;
+import com.example.trabalhofinal.repositories.PagamentoRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,6 +24,13 @@ class AplicativoServiceTest {
 
     @Mock
     private AplicativoRepository aplicativoRepository;
+
+
+    @Mock
+    private AssinaturaRepository assinaturaRepository;
+
+    @Mock
+    private PagamentoRepository pagamentoRepository;
 
     @InjectMocks
     private AplicativoService aplicativoService;
@@ -56,12 +68,43 @@ class AplicativoServiceTest {
     @Test
     void testDeleteAplicativo() {
         Long appId = 1L;
+
+        // Mock de assinaturas com IDs válidos
+        List<Assinatura> mockAssinaturas = List.of(
+                new Assinatura() {{ setId(100L); }},
+                new Assinatura() {{ setId(101L); }}
+        );
+
+        // Mock de pagamentos com IDs válidos
+        List<Pagamento> mockPagamentosAssinatura1 = List.of(
+                new Pagamento() {{ setId(200L); }},
+                new Pagamento() {{ setId(201L); }}
+        );
+
+        List<Pagamento> mockPagamentosAssinatura2 = List.of(
+                new Pagamento() {{ setId(202L); }},
+                new Pagamento() {{ setId(203L); }}
+        );
+
+        when(assinaturaRepository.findByAplicativoId(appId)).thenReturn(mockAssinaturas);
+        when(pagamentoRepository.findByAssinaturaId(100L)).thenReturn(mockPagamentosAssinatura1);
+        when(pagamentoRepository.findByAssinaturaId(101L)).thenReturn(mockPagamentosAssinatura2);
+
+        doNothing().when(pagamentoRepository).deleteById(anyLong());
+        doNothing().when(assinaturaRepository).deleteById(anyLong());
         doNothing().when(aplicativoRepository).deleteById(appId);
 
         aplicativoService.deleteAplicativo(appId);
 
+        verify(assinaturaRepository, times(1)).findByAplicativoId(appId);
+        verify(pagamentoRepository, times(2)).findByAssinaturaId(anyLong());
+        verify(pagamentoRepository, times(4)).deleteById(anyLong()); // Total de 4 pagamentos
+        verify(assinaturaRepository, times(2)).deleteById(anyLong());
         verify(aplicativoRepository, times(1)).deleteById(appId);
     }
+
+
+
 
     @Test
     void testAtualizarCustoMensal() {

@@ -1,7 +1,12 @@
 package com.example.trabalhofinal.services;
 
 import com.example.trabalhofinal.models.Cliente;
+import com.example.trabalhofinal.models.Assinatura;
+import com.example.trabalhofinal.models.Pagamento;
+
 import com.example.trabalhofinal.repositories.ClienteRepository;
+import com.example.trabalhofinal.repositories.AssinaturaRepository;
+import com.example.trabalhofinal.repositories.PagamentoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +27,12 @@ public class ClienteServiceTest {
 
     @Mock
     private ClienteRepository clienteRepository;
+
+    @Mock
+    private PagamentoRepository pagamentoRepository;
+
+    @Mock
+    private AssinaturaRepository assinaturaRepository;
 
     @InjectMocks
     private ClienteService clienteService;
@@ -73,10 +84,42 @@ public class ClienteServiceTest {
 
     @Test
     public void testDeleteCliente() {
-        doNothing().when(clienteRepository).deleteById(cliente1.getId());
+        Long clienteId = 1L;
 
-        clienteService.deleteCliente(cliente1.getId());
+        // Mock de assinaturas e pagamentos
+        List<Assinatura> mockAssinaturas = List.of(
+                new Assinatura() {{ setId(100L); }},
+                new Assinatura() {{ setId(101L); }}
+        );
 
-        verify(clienteRepository, times(1)).deleteById(cliente1.getId());
+        List<Pagamento> mockPagamentosAssinatura1 = List.of(
+                new Pagamento() {{ setId(200L); }},
+                new Pagamento() {{ setId(201L); }}
+        );
+
+        List<Pagamento> mockPagamentosAssinatura2 = List.of(
+                new Pagamento() {{ setId(202L); }},
+                new Pagamento() {{ setId(203L); }}
+        );
+
+        // Mock dos retornos dos repositórios
+        when(assinaturaRepository.findByClienteId(clienteId)).thenReturn(mockAssinaturas);
+        when(pagamentoRepository.findByAssinaturaId(100L)).thenReturn(mockPagamentosAssinatura1);
+        when(pagamentoRepository.findByAssinaturaId(101L)).thenReturn(mockPagamentosAssinatura2);
+
+        doNothing().when(pagamentoRepository).deleteById(anyLong());
+        doNothing().when(assinaturaRepository).deleteById(anyLong());
+        doNothing().when(clienteRepository).deleteById(clienteId);
+
+        // Chama o método de serviço
+        clienteService.deleteCliente(clienteId);
+
+        // Verificações
+        verify(assinaturaRepository, times(1)).findByClienteId(clienteId);
+        verify(pagamentoRepository, times(2)).findByAssinaturaId(anyLong());
+        verify(pagamentoRepository, times(4)).deleteById(anyLong()); // Total de 4 pagamentos
+        verify(assinaturaRepository, times(2)).deleteById(anyLong());
+        verify(clienteRepository, times(1)).deleteById(clienteId);
     }
+
 }
