@@ -14,7 +14,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/servcad")
+    @GetMapping("/usuarios")
     public List<Usuario> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
     }
