@@ -10,8 +10,12 @@ public class Pagamento {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "assinatura_id")
+    @JoinColumn(name = "assinatura_id", nullable = true)
     private Assinatura assinatura;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = true)
+    private Cliente cliente;
 
     private double valorPago;
     private LocalDate dataPagamento;
